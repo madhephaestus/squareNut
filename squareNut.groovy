@@ -25,8 +25,6 @@ import com.google.gson.reflect.TypeToken;
 import eu.mihosoft.vrl.v3d.parametrics.*;
 CSG getNut(){
 	String type= "squareNut"
-	LengthParameter facets		= new LengthParameter("Bolt Hole Facet Count",10,[40,10])
-	LengthParameter boltLength		= new LengthParameter("Bolt Length",10,[180,10])
 	LengthParameter offset		= new LengthParameter("printerOffset",0.0,[2,0])
 	if(args==null)
 		args=["M3"]
@@ -37,7 +35,7 @@ CSG getNut(){
 	//println "Database loaded "+database
 	HashMap<String,Object> servoConfig = Vitamins.getConfiguration( type,size.getStrValue())
 	double w=Double.parseDouble(servoConfig.get("width").toString())+offset.getMM()
-	double h=Double.parseDouble(servoConfig.get("height").toString())
+	double h=Double.parseDouble(servoConfig.get("height").toString())+offset.getMM()
 
 	
 	CSG head =new Cube(w,w,h).toCSG() // a one line Cylinder
@@ -45,8 +43,6 @@ CSG getNut(){
 
 	return head
 		.setParameter(size)
-		.setParameter(boltLength)
-		.setParameter(facets)
 		.setParameter(offset)
 		.setRegenerate({getNut()})
 }
